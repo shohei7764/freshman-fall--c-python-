@@ -1,0 +1,42 @@
+#2610210086、宮沢祥平、sin関数とcos関数をpythonで表示したプログラム。凡例の二つ表示する方法がわからなかったのでネットで調べました。
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# 等差数列を生成する numpy の関数 linspace により、始点0, 終点20, 項数100の等差数列を生成
+# つまり、0~20の区間内を等分割にして1000個の点のリストを生成
+x = np.linspace(0, 20, 1000)
+# sin(x)、cos(x)の値を格納したリストを生成（要素数は x と同じ１００個）
+y1 = np.sin(x)
+
+y2 = np.sin(2*x)
+
+y3= np.cos(x)
+
+y4= np.cos(2*x)
+
+# グラフの描画
+
+fig1 = plt.figure(figsize=[13,4])
+
+ax1 = fig1.add_subplot(1,2,1)
+ax2 = fig1.add_subplot(1,2,2)
+
+# sinの折れ線グラフを描画
+
+ax1.plot(x,y1, label="sin(x)")
+ax1.plot(x,y2, label="sin(2x)")
+
+
+# cosの折れ線グラフを描画
+
+ax2.plot(x,y3, label="cos(x)")
+ax2.plot(x,y4, label="cos(2x)")
+
+
+ax1.set_title("Sine Curve")
+ax2.set_title("Cosine Curve") 
+
+ax1.legend(fontsize=10)
+ax2.legend(fontsize=10)
+plt.show()

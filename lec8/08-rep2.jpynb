@@ -1,0 +1,72 @@
+#2610210086、宮沢祥平、sin関数とcos関数を連続的に表示したプログラム。
+
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib import animation, rc
+from IPython.display import HTML
+
+# 0~4πの区間内を等分割にして100個の点のリストを生成
+x = np.linspace(0, 4*np.pi, 100) 
+
+# グラフの描画領域を作成
+fig = plt.figure(figsize=[8,6])
+
+# 描画領域内での描画場所を指定（2行1列で配置）
+ax1 = fig.add_subplot(2,1,1)
+ax2 = fig.add_subplot(2,1,2)
+
+# 各コマのグラフを格納するために、空のリスト作成
+ims=[]
+
+# 描画の終了時間
+T = 10
+# 描画の1stepの時間
+dt = 0.5
+# 現在の時間
+t = 0
+
+# 凡例を1回だけ表示させるためのフラグ
+f_legend = True
+
+# 時刻 T までループ
+while t <= T:
+  # 現在の y1,y2,y3,y4 の計算
+  y11 = np.sin(x - t)
+  y12 = np.sin(2*x + 2*t)
+  y21 = np.cos(x + t)
+  y22 = np.cos(2*x - 2*t)
+  # 現在のグラフを描画
+  im1 = ax1.plot(x, y11, color='red',label="sin(x-t)")
+  im2 = ax1.plot(x, y12, color='blue',label="sin(2x+2t)")
+  im3 = ax2.plot(x, y21, color='red',label="cos(x+t)")
+  im4 = ax2.plot(x, y22, color='blue',label="cos(2x-2t)")
+  # グラフをリストに追加
+  ims.append(im1+im2+im3+im4)
+  # 時間を進める
+  t += dt
+  # 一度だけ凡例を表示
+  if f_legend:
+    ax1.legend()
+    ax2.legend()
+    ax1.set_title("Sine Curve")
+    ax2.set_title("Cosine Curve")
+    f_legend = False
+
+# 各軸のラベル
+ax1.set_xlabel("x", fontsize=15)
+ax1.set_ylabel("y", fontsize=12)
+ax2.set_xlabel("x", fontsize=15)
+ax2.set_ylabel("y", fontsize=12)
+# グラフの範囲を設定
+ax1.set_xlim([0, 4*np.pi])
+ax1.set_ylim([-1.1, 1.1]) 
+ax2.set_xlim([0, 4*np.pi])
+ax2.set_ylim([-1.1, 1.1]) 
+
+# ArtistAnimationにfigオブジェクトとimsを代入してアニメーションを作成
+anim = animation.ArtistAnimation(fig, ims)
+
+# Google Colaboratory で表示するためのおまじない
+rc('animation', html='jshtml')
+plt.close()
+anim
